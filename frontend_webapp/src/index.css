@@ -1,10 +1,39 @@
+@tailwind base;
+@tailwind components;
+
+/* Base reset to ensure consistent rendering */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+img, svg, video, canvas, audio, iframe, embed, object { display: block; max-width: 100%; }
+button { background: none; border: 0; }
+
+/* Custom component layer for reusable utility classes */
+@tailwind utilities;
+
+/* Theme variables synchronized with UIContext via [data-theme] attribute */
+:root {
+  --bg: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --border: #e2e8f0;
+}
+[data-theme="dark"] {
+  --bg: #0b1220;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --border: #1f2937;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
 body {
-  margin: 0;
+  @apply m-0 bg-[var(--bg)] text-[var(--text)] antialiased;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 code {

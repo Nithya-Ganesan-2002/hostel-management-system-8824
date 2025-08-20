@@ -2,15 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './landing.css';
 import { useAuth } from '../modules/auth/AuthContext';
+import { useUI } from '../modules/ui/UIContext';
 
 export default function LandingPage() {
   const { user, logout } = useAuth();
+  const { toggleTheme, theme } = useUI();
 
   return (
     <div className="landing">
       <nav className="landing__nav">
         <div className="brand">Hostel Manager</div>
         <div className="nav-actions">
+          <button className="btn btn--ghost" onClick={toggleTheme} aria-label="Toggle theme">
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
           {!user ? (
             <>
               <Link className="btn btn--primary" to="/login">Login</Link>

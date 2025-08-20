@@ -7,12 +7,19 @@ import StudentLayout from '../screens/layouts/StudentLayout';
 import AdminLayout from '../screens/layouts/AdminLayout';
 import DashboardHome from '../screens/dashboard/DashboardHome';
 import { ProtectedRoute } from './ProtectedRoute';
+import Rooms from '../screens/student/Rooms';
+import Applications from '../screens/student/Applications';
+import Complaints from '../screens/student/Complaints';
+import Payments from '../screens/student/Payments';
+import RoomsAdmin from '../screens/admin/RoomsAdmin';
+import ComplaintsAdmin from '../screens/admin/ComplaintsAdmin';
+import PaymentsAdmin from '../screens/admin/PaymentsAdmin';
 
 /**
  * PUBLIC_INTERFACE
  * AppRouter sets up top-level routes for the application, including public and protected routes.
  * - Public: Landing, Login, Signup
- * - Protected: Student and Admin portals
+ * - Protected: Student and Admin portals with nested pages
  */
 export default function AppRouter() {
   return (
@@ -32,6 +39,10 @@ export default function AppRouter() {
         }
       >
         <Route index element={<DashboardHome role="student" />} />
+        <Route path="rooms" element={<Rooms />} />
+        <Route path="applications" element={<Applications />} />
+        <Route path="complaints" element={<Complaints />} />
+        <Route path="payments" element={<Payments />} />
       </Route>
 
       {/* Admin portal - protected */}
@@ -44,6 +55,9 @@ export default function AppRouter() {
         }
       >
         <Route index element={<DashboardHome role="admin" />} />
+        <Route path="rooms" element={<RoomsAdmin />} />
+        <Route path="complaints" element={<ComplaintsAdmin />} />
+        <Route path="payments" element={<PaymentsAdmin />} />
       </Route>
 
       {/* Fallback */}
