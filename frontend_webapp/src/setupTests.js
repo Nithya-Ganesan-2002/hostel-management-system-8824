@@ -8,12 +8,30 @@ import './test-utils/polyfills';
 
 /* Mocks for heavy UI libs in test env */
 // Reduce animation complexity by mocking framer-motion components to no-ops
-jest.mock('framer-motion', () => require('./__mocks__/framer-motion'));
+// Use inline factory mocks to avoid recursive resolution issues.
+jest.mock('framer-motion', () => ({
+  __esModule: true,
+  motion: new Proxy({}, { get: () => (({children, ...rest}) => ({ type: 'div', props: { ...rest, children } })) }),
+  AnimatePresence: ({ children }) => children,
+}));
 /* Simplify recharts to passthrough components */
-jest.mock('recharts', () => require('./__mocks__/recharts'));
+jest.mock('recharts', () => ({
+  __esModule: true,
+  ResponsiveContainer: ({ children }) => children,
+  PieChart: ({ children, ...p }) => ({ type: 'div', props: { ...p, children } }),
+  Pie: ({ children, ...p }) => ({ type: 'div', props: { ...p, children } }),
+  Cell: (p) => ({ type: 'div', props: p }),
+  Tooltip: (p) => ({ type: 'div', props: p }),
+  LineChart: ({ children, ...p }) => ({ type: 'div', props: { ...p, children } }),
+  Line: (p) => ({ type: 'div', props: p }),
+  XAxis: (p) => ({ type: 'div', props: p }),
+  YAxis: (p) => ({ type: 'div', props: p }),
+  CartesianGrid: (p) => ({ type: 'div', props: p }),
+  Legend: (p) => ({ type: 'div', props: p }),
+}));
 
 /* Light mock for Navigate to ease redirect assertions (keeps most of RRD intact) */
-jest.mock('react-router-dom', () => require('./__mocks__/react-router-dom'));
+// react-router-dom is not globally mocked to avoid circular issues in Jest.
 
 /* Ensure a clean localStorage between tests to avoid cross-test leakage */
 beforeEach(() => {
